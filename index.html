@@ -1,0 +1,294 @@
+<html>
+	<head>
+			<title> Упоротый Твич: Рыбалка</title>
+			<style>
+				body {
+					background: url(1.jpg);
+					background-size: 100% 100%;
+					overflow: hidden;
+				}
+
+				.stick {
+					background: url(удочка1.png);
+					background-size: 60px 250px;
+					position:absolute ;
+					width: 60px;
+					height: 500px;
+					bottom: 20;
+					left: 200px;
+				}
+
+				.stick {
+					transform: rotate(180deg);
+				}
+				.float {
+					background: url(котбезфона.png);
+					background-size: 70px 90px;
+					transition-duration:1s ;
+					position:absolute;
+					width: 70px;
+					height: 90px;
+					top: 0px;
+					left: 0px;
+					z-index: 5;
+				}
+
+				.bucket {
+					background: url(попкет3.png);
+					background-size: 150px 250px;
+					position:absolute ;
+					width: 150px;
+					height: 250px;
+					bottom: 0;
+					right: 500px;
+				}
+
+				.hook {
+					background: url(ПОДСЕЧКА.png);
+					background-size: 200px 100px;
+					position: absolute;
+					width: 200px;
+					height: 100px;
+					bottom: 50px;
+					left: 50px;
+					cursor: pointer;
+					opacity: 0.5;
+				}
+
+				.hook:hover {
+					transform: rotate(45deg) scale(1.2);
+					opacity: 1;
+				}
+
+				.sign {
+					display: none;
+					background: url(табло.jpg);
+					background-size: 700px 350px;
+					width: 700px;
+					height: 350px;
+					margin-top: 13%; 
+					z-index:999;
+				}
+				.text {
+					margin-top: 13%;
+					font-size: 25px;
+				}
+
+				.menu {
+					position: absolute;
+					top:30px;
+					right:50px;
+				}
+
+				.location {
+					width: 80px;
+					height:40px;
+					border-radius: 5px;
+					border:solid 1px green;
+					cursor: pointer;
+				}
+
+				.fish {
+					margin-top: 20px;
+					width:200px ;
+					height: 100;
+				}
+
+				.label {
+					margin-top: 20px;
+					font-size: 28px;
+				}
+			</style>
+	</head>
+
+	<body onmousedown="setFloat()">
+	
+
+		<div class="stick" id="stick"></div>
+
+		<div class="float" id="float"></div>
+
+		<div class="bucket" id="bucket"></div>
+
+		<div class="fish" id="fish"></div>
+
+		<div class="hook" id="hook" onclick="hooking()"></div>
+
+		<center>
+			<div class="sign" id="sign">
+			<div class="tab-text"> Поздравляю, вы поймали кого то </div>
+				<img src=" " class="fish" id="fish">
+				<div class="label" id="label">T2x2, весит как самолет, редкий</div>
+					</div>
+					<div class="label" id="label"></div>
+				</center>
+
+		<div class="menu">
+			<img onclick="setLocation('1.jpg')" class="location" src="1.jpg">
+			<img onclick="setLocation('2.jpg')" class="location" src="2.jpg">
+			<img onclick="setLocation('3.jpg')" class="location" src="3.jpg">
+			<img onclick="setLocation('4.jpg')" class="location" src="4.jpg">
+			<br>
+			<img onclick="setLocation('5.jpg')" class="location" src="5.jpg">
+			<img onclick="setLocation('6.jpeg')" class="location" src="6.jpeg">
+			<img onclick="setLocation('7.jpg')" class="location" src="7.jpg">
+			<img onclick="setLocation('8.jpg')" class="location" src="8.jpg">
+		</div>
+
+		<script type="text/javascript">
+			alert("Ты скуф");
+			alert("я же знаю");
+			alert("Ладно, играй");
+
+				function setFloat() {
+						let x  = window.event.clientX;
+						let y  = window.event.clientY;
+						
+						if (y > 300 && y <800) {
+							unbite()
+							let float = document.getElementById("float");
+							let stick = document.getElementById("stick");
+
+							float.style.left = x + "px";
+							float.style.top = y + "px";
+
+							stick.style.left = (x + 70) + "px"
+						
+						PSO("put-down.mp3");
+
+						startBite();
+
+					}
+				}
+
+				function startBite(){
+					const randomTimeout = Math.floor(Math.random() * 10)
+					setTimeout(bite, randomTimeout * 1000)
+
+				}
+
+				function setLocation(locationName) {
+					document.body.style.background = "url(" + locationName + ")";
+					document.body.style.backgroundSize = "100% 100%";
+					playSound("put-down.mp3");
+				}
+
+				var audio = null;
+
+				function playSound(source) {
+					if (audio) {
+						audio.pause();
+					}
+					audio = new Audio(source);
+					audio.play();
+				}
+				function PSO(source) {
+					const onceaudio = new Audio(source);
+					onceaudio.play();
+				}
+
+				var isBite = false
+
+				function bite() {
+					isBite = true
+					const float = document.getElementById("float");
+					float.style.background = "url(кот2безфона.png)";
+					float.style.backgroundSize = "70px 90px";
+				}
+
+				function unbite() {
+					isBite = false
+					let float = document.getElementById("float");
+					float.style.background = "url(котбезфона.png)";
+					float.style.backgroundSize = "70px 90px";
+				}
+
+
+
+				function hooking(){
+					if (isBite == true) {
+						getFish();
+						unbite();
+					} else{
+						 alert("не получилось");
+					 }
+				}
+				
+				function getFish(){
+					 newFish();
+					 let sign =	document.getElementById("sign");
+					 sign.style.display = "block";
+					 setTimeout(removeFish, 6000);
+
+					 let stick = document.getElementById("stick")
+					 stick.style.display = "none";
+
+					 let float = document.getElementById("float")
+					 float.style.display = "none";
+				}
+
+				function removeFish(){
+					 let sign =	document.getElementById("sign");
+					 sign.style.display = "none";
+
+					 let stick = document.getElementById("stick")
+					 stick.style.display = "block";
+
+					 let float = document.getElementById("float")
+					 float.style.display = "block";
+				}
+
+				function newFish() {
+					const rand = Math.floor(Math.random() * 7)
+
+					if (rand == 0) {
+						const Mass = Math.floor(Math.random() * 11) * 10000.13 + 2;
+						document.getElementById("label").innerHTML = "T2x2 = " + Mass + "тонн";
+						changeImage("T2x2.jpg")
+					}
+
+					if (rand == 1){
+						const Mass = Math.floor(Math.random() * 11) * 10.15 + 2;
+						document.getElementById("label").innerHTML = "Derzko" + Mass + "кг";
+						changeImage("derzko69.jpg")
+					}
+
+					if (rand == 2){
+						const Mass = Math.floor(Math.random() * 11) * 10.41 + 2;
+						document.getElementById("label").innerHTML = "Stintler" + Mass + "кг";
+						changeImage("Stint.jpg")
+					}
+
+
+					if (rand == 3){
+						const Mass = Math.floor(Math.random() * 11) * 10.12 + 15;
+						document.getElementById("label").innerHTML = "Горин Гена" + Mass + "кг";
+						changeImage("горин гена.jpeg")
+					}
+
+					if (rand == 4){
+						const Mass = Math.floor(Math.random() * 11) * 10.53 + 2;
+						document.getElementById("label").innerHTML = "папич" + Mass + "кг";
+						changeImage("папич.png") 
+					}
+
+					if (rand == 5){
+						const Mass = Math.floor(Math.random() * 11) * 10.53 + 2;
+						document.getElementById("label").innerHTML = "мем с мишкой фреде" + Mass + "гб";
+						changeImage("мем.jpg") 
+					}
+
+					if (rand == 6){
+						const Mass = Math.floor(Math.random() * 11) * 10.53 + 2;
+						document.getElementById("label").innerHTML = "гусь" + Mass + "кг";
+						changeImage("гусь.png") 
+					}
+				}
+
+				function changeImage(fishImageName){
+					document.getElementById("fish").src = fishImageName;
+				}
+
+			</script>
+	</body>
+</html>
